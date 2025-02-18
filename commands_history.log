@@ -43,3 +43,30 @@ npm install
 npm run dev
 nano /mnt/user/ASTRO/astro-frontend/package.json
 npm run dev
+node -v
+npm -v
+which npm
+find / -name "node" -type f 2>/dev/null
+export PATH=$PATH:/mnt/user/ASTRO/nodejs/bin
+node -v
+npm -v
+echo 'export PATH=$PATH:/mnt/user/ASTRO/nodejs/bin' >> ~/.bashrc
+source ~/.bashrc
+cd /mnt/user/ASTRO/astro-frontend
+npm run dev -- --host
+nano /mnt/user/ASTRO/astro-frontend/vite.config.js
+nano /mnt/user/ASTRO/astro-frontend/vite.config.js
+cp /mnt/user/ASTRO/astro-frontend
+ls /mnt/user/ASTRO/astro-frontend
+ls /mnt/user/ASTRO/astro-frontend | grep vite.config.js
+nano /mnt/user/ASTRO/astro-frontend/vite.config.js
+cd /mnt/user/ASTRO/astro-frontend
+npm run dev -- --host
+npm run dev -- --host
+export PATH=$PATH:/mnt/user/ASTRO/nodejs/bin
+node -v
+npm -v
+echo 'export PATH=$PATH:/mnt/user/ASTRO/nodejs/bin' >> ~/.bashrc
+source ~/.bashrc
+cd /mnt/user/ASTRO/astro-frontend
+npm run dev -- --host
