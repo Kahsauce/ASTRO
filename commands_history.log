@@ -25,3 +25,21 @@ docker cp /mnt/user/ASTRO/routes astro_env:/app
 docker cp /mnt/user/ASTRO/config astro_env:/app
 docker exec -it astro_env bash
 lsof -i :8000
+cd /mnt/user/ASTRO
+curl -o node.tar.xz https://nodejs.org/dist/v18.17.1/node-v18.17.1-linux-x64.tar.xz
+tar -xf node.tar.xz
+mv node-v18.17.1-linux-x64 nodejs
+rm node.tar.xz
+export PATH=/mnt/user/ASTRO/nodejs/bin:$PATH
+node -v
+npm -v
+echo 'export PATH=/mnt/user/ASTRO/nodejs/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+cd /mnt/user/ASTRO
+npm create vite@latest astro-frontend --template react
+npm instal -g npm@11.1.0
+cd astro-frontend
+npm install
+npm run dev
+nano /mnt/user/ASTRO/astro-frontend/package.json
+npm run dev
