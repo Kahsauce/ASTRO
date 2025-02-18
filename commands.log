@@ -1,0 +1,5 @@
+# 18-02-2025 - Initialisation du projet
+git init
+git add .
+git commit -m "Initialisation du projet Astro"
+docker run -dit --name astro_env ...
