@@ -1,0 +1,27 @@
+cd /mnt/user/ASTRO
+git init
+git config --global user.name "Adrien Wyer"
+git config --global user.email "adrien.wyer@gmail.com"
+nano /mnt/user/ASTRO/.gitignore
+git add .
+git config --global --add safe.directory /mnt/user/ASTRO
+--global
+git add .
+git commit -m "Initialisation du projet Astro"
+nano /mnt/user/ASTRO/commands.log
+git add commands.log
+git commit -m "Ajout du fichier de log des commandes"
+echo 'export HISTFILE=/mnt/user/ASTRO/commands_history.log' >> ~/.bashrc
+source ~/.bashrc
+mkdir -p /mnt/user/ASTRO/app /mnt/user/ASTRO/routes /mnt/user/ASTRO/config
+touch /mnt/user/ASTRO/app/main.py
+touch /mnt/user/ASTRO/routes/base.py
+touch /mnt/user/ASTRO/config/settings.py
+nano /mnt/user/ASTRO/app/main.py
+nano /mnt/user/ASTRO/routes/base.py
+nano /mnt/user/ASTRO/config/settings.py
+docker cp /mnt/user/ASTRO/app astro_env:/app
+docker cp /mnt/user/ASTRO/routes astro_env:/app
+docker cp /mnt/user/ASTRO/config astro_env:/app
+docker exec -it astro_env bash
+lsof -i :8000
