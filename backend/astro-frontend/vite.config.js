@@ -13,7 +13,7 @@ export default defineConfig({
         target: "http://192.168.1.188:8100",
         changeOrigin: true,
         secure: false,
-	rewrite: (path) => path, // 🔥 Désactive la réécriture pour garder "/api/message"
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
