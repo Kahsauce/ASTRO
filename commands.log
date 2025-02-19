@@ -1,5 +1,23 @@
-# 18-02-2025 - Initialisation du projet
-git init
+# 🚀 Accéder à l'environnement ASTRO
+docker exec -it astro_env sh
+
+# 🌍 Démarrer l’API FastAPI
+cd /mnt/ASTRO/backend
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+# 🎨 Démarrer le frontend Vite
+cd /mnt/ASTRO/astro-frontend
+npm run dev
+
+# 📂 Gérer Git
+cd /mnt/ASTRO
+git status
 git add .
-git commit -m "Initialisation du projet Astro"
-docker run -dit --name astro_env ...
+git commit -m "Mise à jour du projet ASTRO"
+
+# 🔧 Redémarrer ASTRO
+docker stop astro_env
+docker start astro_env
+
+# 📂 Vérifier la structure du projet
+tree -L 3 /mnt/ASTRO
