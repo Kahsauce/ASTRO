@@ -1,21 +1,22 @@
 from fastapi import FastAPI, Request
-from routes.base import router as base_router
-from routes.file_manager import router as file_router
-from routes.code_executor import router as code_router
 import sys
-sys.path.append("/mnt/ASTRO/")  # ✅ Ajout du bon chemin
+import os
+import importlib
+from dotenv import load_dotenv
 
-from backend.module_manager import router as module_router  # ✅ Ajout des modules dynamiques
+# 📌 Charger les variables d'environnement
+load_dotenv('/mnt/user/ASTRO/.env')  # Assurez-vous que le fichier .env est bien présent
 
+# 📌 Configuration de l'API
+sys.path.append("/mnt/ASTRO/")
+sys.path.append("/mnt/ASTRO/backend")
+from module_manager import load_modules  # ✅ Charge les modules dynamiquement
 from config.settings import settings
 
-app = FastAPI(title=settings.PROJECT_NAME, version=settings.API_VERSION)  # Supprimer root_path="/api"
+app = FastAPI(title=settings.PROJECT_NAME, version=settings.API_VERSION)
 
-# 📌 Inclure les routes
-app.include_router(base_router)
-app.include_router(file_router)
-app.include_router(code_router)
-app.include_router(module_router)  # ✅ Assurer que les modules sont bien inclus
+# 📌 Inclure les modules dynamiques automatiquement
+loaded_modules = load_modules(app)
 
 @app.get("/")
 def read_root():
@@ -25,13 +26,19 @@ def read_root():
 def ping():
     return {"message": "Orchestrateur fonctionne"}
 
-# ✅ Ajout de l'endpoint `/api/message`
+# ✅ Endpoint `/api/message` pour l'interface web
 @app.post("/api/message")
 async def receive_message(request: Request):
     """Reçoit un message de l'interface web et retourne une réponse"""
     data = await request.json()
     print(f"📩 Message reçu : {data}")  # 🔍 Debug
     return {"message": f"Tu as envoyé : {data}"}
+
+# ✅ Vérifier quels modules sont chargés
+@app.get("/api/modules")
+def list_modules():
+    """Retourne la liste des modules dynamiquement chargés"""
+    return {"loaded_modules": loaded_modules}
 
 if __name__ == '__main__':
     import uvicorn
