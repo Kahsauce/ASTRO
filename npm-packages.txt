@@ -1,5 +1,0 @@
-astro-frontend@0.0.0 /mnt/user/ASTRO/astro-frontend
-├── react-dom@18.3.1
-├── react@18.3.1
-└── vite@6.1.0
-
