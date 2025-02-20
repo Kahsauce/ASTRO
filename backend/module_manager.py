@@ -1,68 +1,60 @@
 import sys
 import os
 import importlib.util
-from fastapi import APIRouter, FastAPI, HTTPException
+from fastapi import APIRouter
 
-sys.path.append("/mnt/user/ASTRO/")  # ✅ Assurer que le chemin est pris en compte
+sys.path.append("/mnt/user/ASTRO/")  # ✅ Ajout du chemin correct
 
 router = APIRouter()
-MODULES_PATH = "/mnt//ASTRO/modules"  # 📌 Dossier des modules dynamiques
 
-def load_modules(app: FastAPI):
-    """Charge dynamiquement tous les modules dans /modules et les ajoute à FastAPI"""
-    modules_loaded = []
+MODULES_PATH = "/mnt/ASTRO/modules"
+SPECIAL_MODULES = ["/mnt/ASTRO/backend/routes/chat.py"]  # 📌 Liste des modules spécifiques à inclure
 
-    # 📌 Vérifier que le dossier des modules existe
+# ✅ Assurez-vous que tout est bien indenté à l'intérieur de la fonction load_modules()
+def load_modules():
+    """ Charge dynamiquement tous les modules trouvés dans le dossier /modules et les modules spéciaux """
+    loaded_modules = []
+
     if not os.path.exists(MODULES_PATH):
-        os.makedirs(MODULES_PATH)
+        print(f"❌ Le dossier des modules {MODULES_PATH} n'existe pas.")
+        return []
 
+    # 📌 Charger tous les modules depuis `/modules`
     for module_name in os.listdir(MODULES_PATH):
         module_path = os.path.join(MODULES_PATH, module_name, f"{module_name}.py")
 
-        # 📌 Vérifier que le module est valide avant de l'importer
         if os.path.exists(module_path):
-            try:
-                spec = importlib.util.spec_from_file_location(module_name, module_path)
-                module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
-                
-                # 📌 Vérifier si le module a une variable `router`
-                if hasattr(module, "router"):
-                    app.include_router(module.router, prefix=f"/api/{module_name}")
-                    modules_loaded.append(module_name)
-                    print(f"✅ Module {module_name} chargé avec succès !")
-                else:
-                    print(f"⚠️ Le module {module_name} n'a pas de `router`, il n'est pas ajouté à l'API.")
+            spec = importlib.util.spec_from_file_location(module_name, module_path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
 
-            except Exception as e:
-                print(f"❌ Erreur lors du chargement du module {module_name} : {e}")
+            if hasattr(module, "router"):
+                router.include_router(module.router, prefix=f"/{module_name}")  # ✅ Ajout du module à l'API
+                loaded_modules.append(module_name)
+                print(f"✅ Module {module_name} chargé avec succès !")
+            else:
+                print(f"⚠️ Module {module_name} ignoré (pas de router détecté).")
 
-    return modules_loaded
+    # 📌 Charger aussi `chat.py` (et autres modules spéciaux)
+    for special_module in SPECIAL_MODULES:
+        if os.path.exists(special_module):
+            module_name = os.path.basename(special_module).replace(".py", "")
+            spec = importlib.util.spec_from_file_location(module_name, special_module)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
 
-@router.post("/modules/install")
-def install_module(module_name: str):
-    """Simule l'installation d'un module"""
-    module_path = os.path.join(MODULES_PATH, module_name)
+            print(f"🔍 Vérification du module {module_name}: {module}")
 
-    if os.path.exists(module_path):
-        raise HTTPException(status_code=400, detail="Le module existe déjà")
+            if hasattr(module, "router"):
+                print(f"✅ Le module {module_name} a bien un routeur FastAPI !")
+                router.include_router(module.router, prefix=f"/{module_name}")  # ✅ Ajout automatique
+                print(f"🚀 Route ajoutée dynamiquement : /{module_name}")  # ✅ Log pour vérification
+                loaded_modules.append(module_name)
+                print(f"✅ Module spécial {module_name} chargé avec succès !")
+            else:
+                print(f"⚠️ Le module {module_name} N'A PAS de routeur FastAPI. Il sera ignoré.")
 
-    os.makedirs(module_path)
-    with open(os.path.join(module_path, "__init__.py"), "w") as f:
-        f.write("# Module Auto-généré\n")
+    return loaded_modules  # ✅ Bien indenté à l'intérieur de `load_modules()`
 
-    # 📌 Générer un fichier de route dynamique pour le module
-    route_code = f"""
-from fastapi import APIRouter
-
-router = APIRouter()
-
-@router.get("/")
-def hello():
-    return {{"message": "Module {module_name} installé avec succès !"}}
-    """
-    with open(os.path.join(module_path, f"{module_name}.py"), "w") as f:
-        f.write(route_code)
-
-    return {"message": f"Module {module_name} installé et prêt à être utilisé !"}
-
+# 📌 Charger les modules au démarrage
+load_modules()
