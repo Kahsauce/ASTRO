@@ -1,42 +1,50 @@
 import React, { useState } from "react";
 
 function App() {
-    const [message, setMessage] = useState("");
-    const [response, setResponse] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [response, setResponse] = useState("");
 
-    const sendMessage = async () => {
-        try {
-	    const res = await fetch("https://astro.doctoral.fr/api/message", {  // Ajout de /api/
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message }),
-            });
+async function sendMessage() {
+  try {
+    const res = await fetch("/api/message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ command: inputValue }), // Envoie la commande tapée par l'utilisateur
+    });
 
-            if (!res.ok) {
-                throw new Error(`Erreur réseau: ${res.statusText}`);
-            }
+    if (!res.ok) {
+      throw new Error("Erreur réseau");
+    }
 
-            const data = await res.json();
-            setResponse(data.response);
-        } catch (error) {
-            console.error("Erreur :", error);
-            setResponse("Erreur lors de la connexion au serveur");
-        }
-    };
+    const data = await res.json();
+    setResponse(data.response); // On affiche la réponse du backend
+  } catch (error) {
+    console.error("Erreur lors de la connexion au serveur:", error);
+    setResponse("Erreur de connexion au serveur");
+  }
+}
 
-    return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h1>Astro Assistant - TEST</h1>
-            <input 
-                type="text" 
-                value={message} 
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Écris un message"
-            />
-            <button onClick={sendMessage}>Envoyer</button>
-            {response && <p>Réponse : {response}</p>}
-        </div>
-    );
+  return (
+    <div style={{ padding: "1rem" }}>
+      <h1>Astro Assistant - TEST</h1>
+      <label>
+        Ton message :
+        <input
+          type="text"
+          placeholder="Écris ici"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          style={{ marginLeft: "0.5rem" }}
+        />
+      </label>
+      <div style={{ marginTop: "1rem" }}>
+        <button onClick={sendMessage}>Envoyer</button>
+      </div>
+      <p style={{ marginTop: "1rem" }}>
+        <strong>Réponse :</strong> {response}
+      </p>
+    </div>
+  );
 }
 
 export default App;

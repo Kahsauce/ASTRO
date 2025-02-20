@@ -1,0 +1,109 @@
+/mnt/ASTRO
+├── __pycache__
+│   └── main.cpython-311.pyc
+├── app
+│   └── main.py
+├── astro-frontend
+│   ├── index.html
+│   ├── node_modules
+│   │   ├── @ampproject
+│   │   ├── @babel
+│   │   ├── @esbuild
+│   │   ├── @jridgewell
+│   │   ├── @rollup
+│   │   ├── @types
+│   │   ├── @vitejs
+│   │   ├── browserslist
+│   │   ├── caniuse-lite
+│   │   ├── convert-source-map
+│   │   ├── debug
+│   │   ├── electron-to-chromium
+│   │   ├── esbuild
+│   │   ├── escalade
+│   │   ├── gensync
+│   │   ├── globals
+│   │   ├── js-tokens
+│   │   ├── jsesc
+│   │   ├── json5
+│   │   ├── loose-envify
+│   │   ├── lru-cache
+│   │   ├── ms
+│   │   ├── nanoid
+│   │   ├── node-releases
+│   │   ├── picocolors
+│   │   ├── postcss
+│   │   ├── react
+│   │   ├── react-dom
+│   │   ├── react-refresh
+│   │   ├── rollup
+│   │   ├── scheduler
+│   │   ├── semver
+│   │   ├── source-map-js
+│   │   ├── update-browserslist-db
+│   │   ├── vite
+│   │   └── yallist
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   └── vite.svg
+│   ├── src
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── vite.config.js
+├── backend
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-311.pyc
+│   │   └── main.cpython-311.pyc
+│   ├── config
+│   │   ├── __pycache__
+│   │   └── settings.py
+│   ├── main.py
+│   ├── requirements.txt
+│   └── routes
+│       ├── __pycache__
+│       ├── base.py
+│       ├── code_executor.py
+│       └── file_manager.py
+├── code_storage
+│   └── test_script.py
+├── commands.log
+├── commands_history.log
+├── config
+│   ├── __pycache__
+│   │   └── settings.cpython-311.pyc
+│   └── settings.py
+├── nodejs
+│   ├── CHANGELOG.md
+│   ├── LICENSE
+│   ├── README.md
+│   ├── bin
+│   │   ├── corepack -> ../lib/node_modules/corepack/dist/corepack.js
+│   │   ├── node
+│   │   ├── npm -> ../lib/node_modules/npm/bin/npm-cli.js
+│   │   └── npx -> ../lib/node_modules/npm/bin/npx-cli.js
+│   ├── include
+│   │   └── node
+│   ├── lib
+│   │   └── node_modules
+│   └── share
+│       ├── doc
+│       ├── man
+│       └── systemtap
+├── npm-packages.txt
+├── package-lock.json
+├── requirements.txt
+├── routes
+│   ├── __pycache__
+│   │   ├── base.cpython-311.pyc
+│   │   ├── code_executor.cpython-311.pyc
+│   │   └── file_manager.cpython-311.pyc
+│   ├── base.py
+│   ├── code_executor.py
+│   └── file_manager.py
+├── setup.sh
+├── storage
+│   └── test_json.txt
+└── structure.txt
+
+65 directories, 42 files

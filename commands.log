@@ -21,3 +21,15 @@ docker start astro_env
 
 # 📂 Vérifier la structure du projet
 tree -L 3 /mnt/ASTRO
+
+# Démarrer le conteneur Docker
+docker run -dit --network host --name astro_env -v /mnt/user/ASTRO:/mnt/ASTRO astro_env_temp
+
+# Accéder au conteneur Docker
+docker exec -it astro_env sh
+
+# Relancer Vite avec l'option --host
+npm run dev -- --host
+
+# Vérifier si Vite est accessible
+curl -I http://192.168.1.188:5173

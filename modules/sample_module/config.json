@@ -1,0 +1,5 @@
+{
+  "name": "sample_module",
+  "description": "Module de test",
+  "routes": ["/test_endpoint"]
+}
